@@ -12,3 +12,4 @@
 - [MH-Z19](https://github.com/WifWaf/MH-Z19) - 
 - [U8g2](https://github.com/olikraus/u8g2) - 
 ## Схемы
+<img src="CO2meter_01.png">
