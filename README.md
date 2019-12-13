@@ -1,4 +1,8 @@
 # CO2meter
+<img src="co2_img_01.png">
+
+<img align="center" src="co2_img_02.png">
+
 Температура, влажность, давление, CO2
 - [Возможности](https://github.com/killadog/CO2meter#%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8)
 - [Компоненты](https://github.com/killadog/CO2meter#%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B)
