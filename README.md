@@ -24,6 +24,8 @@
 - MH-Z19B
 ## Схемы
 <img src="CO2meter_01.png">
+Для изготовления платы в формате Sprint Layout - [CO2.lay](CO2.lay)
+<img src="CO2_02.png">
 
 ## Библиотеки
 
