@@ -24,9 +24,9 @@
 - Вывод значений в Serial.
 ## Компоненты
 - Arduino Nano
-- OLED SSD1306 128x32
-- BME280
 - MH-Z19B
+- BME280
+- OLED SSD1306 128x32
 ## Схемы
 <img src="CO2meter_01.png">
 Для изготовления платы в формате Sprint Layout
@@ -37,11 +37,10 @@
 
 ## Библиотеки
 
-- [GyverButton](https://github.com/AlexGyver/GyverLibs/tree/master/GyverButton) - работа с кнопками.
-- [GyverUART](https://github.com/AlexGyver/GyverLibs/tree/master/GyverUART) - быстрая и лёгкая библиотека для работы с Serial.
-- [SparkFun BME280](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library) - библиотека для датчика BME280 (температура, влажность, давление).
 - [MH-Z19](https://github.com/WifWaf/MH-Z19) - библиотека для MH-Z19 и MH-Z19B CO2 датчиков.
+- [SparkFun BME280](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library) - библиотека для датчика BME280 (температура, влажность, давление).
 - [U8g2](https://github.com/olikraus/u8g2) - графическая библиотека для монохромных OLED дисплеев.
+- [GyverButton](https://github.com/AlexGyver/GyverLibs/tree/master/GyverButton) - работа с кнопками.
 ## Шрифты
 Созданы с помощью [Fony 1.4.7-WIP](http://hukka.ncn.fi/?fony) и конвертированы для вставки в скетч с помощью [bdfconv](https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv).
 
