@@ -15,7 +15,7 @@
             ├───────────────────────┼───────────────────────┤
    Sensor 3 │      Current CO2      |      Min-Max CO2      │
             ├───────────────────────┼───────────────────────┤
-   Sensor 4 │          ALL          |          Ver.         │
+   Sensor 4 │          ALL          |      Ver. & Year      │
             └───────────────────────┴───────────────────────┘
 */
 
@@ -39,7 +39,7 @@ float VALUE[SENSORS];                              //current value of each senso
 uint16_t MIN[SENSORS];                             //Min value of each sensor
 uint16_t MAX[SENSORS];                             //Max value of each sensor
 
-boolean MODE                        = 1;           //start mode (0 - normal, 1 - min/max)
+boolean MODE                        = 0;           //start mode (0 - normal, 1 - min/max)
 uint8_t SENSOR_NUMBER               = 4;           //start sensor (screen) for show
 uint32_t SENSORS_TIMESTAMP          = millis();
 #define CHECK_TIME                    10000        //sensors check time in millis
