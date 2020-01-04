@@ -1,3 +1,5 @@
+<img src="https://img.shields.io/badge/version-1.01-green">
+
 # CO2meter
 <img src="co2_img_01.png">
 
