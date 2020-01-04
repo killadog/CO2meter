@@ -6,6 +6,7 @@
 <img src="co2_img_02.png">
 
 - [Возможности](https://github.com/killadog/CO2meter#%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8)
+- Режимы
 - [Компоненты](https://github.com/killadog/CO2meter#%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B)
 - [Схемы](https://github.com/killadog/CO2meter#%D1%81%D1%85%D0%B5%D0%BC%D1%8B)
 - [Библиотеки](https://github.com/killadog/CO2meter#%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B8)
@@ -25,6 +26,17 @@
   - жёлтый - от 800 до 1000 ppm;
   - красный - более 1000 ppm.
 - Вывод значений в Serial.
+
+## Режимы экрана
+
+|   |**Mode 0**  |**Mode 1**   |
+|---|:---:|:---:|
+|**Sensor 0**  | 'Current temperature'  |Min-Max temperature   |
+|**Sensor 1**  |Current humidity   |Min-Max humidity  |
+|**Sensor 2**  | Current pressure  |Min-Max pressure  |
+|**Sensor 3**  | Current CO2  |Min-Max CO2   |
+|**Sensor 4**  | ALL sensors  |Ver. & Year  |
+
 ## Компоненты
 - Arduino Nano
 - MH-Z19B
