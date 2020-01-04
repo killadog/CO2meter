@@ -1,7 +1,9 @@
 /*
+  Version: 1.01
+
   Arduino Nano
-  Temperature, humidity, pressure - BME280
   CO2 - MH-Z19B
+  Temperature, humidity, pressure - BME280
   OLED - SSD1306 128x32
   Code, fonts, layout etc - https://github.com/killadog/CO2meter
 
@@ -15,7 +17,7 @@
             ├───────────────────────┼───────────────────────┤
    Sensor 3 │      Current CO2      |      Min-Max CO2      │
             ├───────────────────────┼───────────────────────┤
-   Sensor 4 │          ALL          |      Ver. & Year      │
+   Sensor 4 │      ALL sensors      |      Ver. & Year      │
             └───────────────────────┴───────────────────────┘
 */
 
@@ -25,26 +27,27 @@
 #include <MHZ19.h>
 #include <SoftwareSerial.h>
 
-#define RX_PIN                        4            // RX pin
-#define TX_PIN                        5            // TX pin
-#define RED_PIN                       6            // RED pin
-#define YELLOW_PIN                    7            // YELLOW pin 
-#define GREEN_PIN                     8            // GREEN pin
-#define BUTTON_PIN                    9            // BUTTON pin
-#define SDA_PIN                       A4           // SDA pin
-#define SCL_PIN                       A5           // SCL pin
+#define RX_PIN                        4               // RX pin
+#define TX_PIN                        5               // TX pin
+#define RED_PIN                       6               // RED pin
+#define YELLOW_PIN                    7               // YELLOW pin 
+#define GREEN_PIN                     8               // GREEN pin
+#define BUTTON_PIN                    9               // BUTTON pin
+#define SDA_PIN                       A4              // SDA pin
+#define SCL_PIN                       A5              // SCL pin
 
-const uint8_t SENSORS               = 4;           //number of sensors
-float VALUE[SENSORS];                              //current value of each sensor
-uint16_t MIN[SENSORS];                             //Min value of each sensor
-uint16_t MAX[SENSORS];                             //Max value of each sensor
+const uint8_t SENSORS               = 4;              //number of sensors
+float VALUE[SENSORS];                                 //current value of each sensor
+float CALIBRATION[SENSORS]          = { -1, 0, 0, 0}; //calibration of each sensor (t,%,T,ppm)
+uint16_t MIN[SENSORS];                                //Min value of each sensor
+uint16_t MAX[SENSORS];                                //Max value of each sensor
 
-boolean MODE                        = 0;           //start mode (0 - normal, 1 - min/max)
-uint8_t SENSOR_NUMBER               = 4;           //start sensor (screen) for show
+boolean MODE                        = 0;              //start mode (0 - normal, 1 - min/max)
+uint8_t SENSOR_NUMBER               = 4;              //start sensor (screen) for show
 uint32_t SENSORS_TIMESTAMP          = millis();
-#define CHECK_TIME                    10000        //sensors check time in millis
+#define CHECK_TIME                    20000           //sensors check time in millis
 
-boolean DISPLAY_MODE                = 0;           //normal or rotate screen
+boolean DISPLAY_MODE                = 0;              //normal (0) or rotate (1) screen
 
 BME280 bme280;
 U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ SCL, /* data=*/ SDA);
@@ -121,6 +124,28 @@ void setup()
   {
     MIN[s] = 3000;                                   //INCORRECT(!) values for minimums
   }
+
+  START_SCREEN();
+}
+
+void START_SCREEN()
+{
+  u8g2.setFont(lcdnums_12x32);
+  uint32_t START_TIME = millis();
+  while (millis() < START_TIME + CHECK_TIME)
+  {
+    u8g2.firstPage();
+    do {
+      //      u8g2.setCursor(60, 12);
+      //      u8g2.print((CHECK_TIME + 1000 - millis()) / 1000);
+
+      char charBuf[3];
+      String COUNTDOWN = String((CHECK_TIME + 1000 - millis()) / 1000);
+      COUNTDOWN.toCharArray(charBuf, 3);
+      u8g2_uint_t TEXT_WIDTH = u8g2.getStrWidth(charBuf);
+      u8g2.drawStr((128 - TEXT_WIDTH) / 2, 12, charBuf);
+    } while (u8g2.nextPage());
+  }
 }
 
 void loop()
@@ -178,7 +203,7 @@ void draw()
   }
 }
 
-void SENSOR_0()                                       //temperature
+void SENSOR_0()                                       //Temperature
 {
   switch (MODE)
   {
@@ -223,14 +248,14 @@ void SENSOR_2()                                       //Pressure
     case 0:
       u8g2.setCursor(26, 12);
       u8g2.print(VALUE[2], 1);
-      u8g2.print(F("&"));                             //Torricelli symbol
+      u8g2.print(F("&"));                             //Torr symbol
       break;
     case 1:
       u8g2.setCursor(0, 12);
       u8g2.print(MIN[2]);
       u8g2.print(F("-"));
       u8g2.print(MAX[2]);
-      u8g2.print(F("&"));                             //Torricelli symbol
+      u8g2.print(F("&"));                             //Torr symbol
       break;
   }
 }
@@ -261,7 +286,7 @@ void SENSOR_4()
       u8g2.setFont(lcdnums_10x16);
       u8g2.setCursor(0, 10);
       u8g2.print(VALUE[0], 1);
-      u8g2.print(F("*"));
+      u8g2.print(F("*"));                             //degree symbol
 
       u8g2.setCursor(0, 27);
       u8g2.print(VALUE[1], 1);
@@ -269,18 +294,18 @@ void SENSOR_4()
 
       u8g2.setCursor(60, 10);
       u8g2.print(VALUE[2], 1);
-      u8g2.print(F("&"));
+      u8g2.print(F("&"));                             //Torr symbol
 
       u8g2.setCursor(60, 27);
       u8g2.print(VALUE[3], 0);
-      u8g2.print(F("$"));
+      u8g2.print(F("$"));                             //ppm symbol
       break;
     case 1:
       u8g2.setFont(lcdnums_10x16);
       u8g2.setCursor(50, 10);
-      u8g2.print("1.0");
+      u8g2.print("1.0");                              //version
       u8g2.setCursor(40, 27);
-      u8g2.print("2019");
+      u8g2.print("2019");                             //year
       break;
   }
 }
@@ -292,7 +317,7 @@ void CHECK_SENSORS()
     switch (s)
     {
       case 0:
-        VALUE[s] = bme280.readTempC();
+        VALUE[s] = bme280.readTempC() + CALIBRATION[s];
         if  (VALUE[s] < MIN[s]) MIN[s] = VALUE[s];
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("T: "));
@@ -304,7 +329,7 @@ void CHECK_SENSORS()
         Serial.print(F(")   "));
         break;
       case 1:
-        VALUE[s] = bme280.readFloatHumidity();
+        VALUE[s] = bme280.readFloatHumidity() + CALIBRATION[s];
         if  (VALUE[s] < MIN[s]) MIN[s] = VALUE[s];
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("H: "));
@@ -316,7 +341,7 @@ void CHECK_SENSORS()
         Serial.print(F(")   "));
         break;
       case 2:
-        VALUE[s] = bme280.readFloatPressure() / 133.3224;
+        VALUE[s] = bme280.readFloatPressure() / 133.3224 + CALIBRATION[s];
         if  (VALUE[s] < MIN[s]) MIN[s] = VALUE[s];
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("P: "));
@@ -328,7 +353,7 @@ void CHECK_SENSORS()
         Serial.print(F(")   "));
         break;
       case 3:
-        VALUE[s] = myMHZ19.getCO2();
+        VALUE[s] = myMHZ19.getCO2() + CALIBRATION[s];
         if  (VALUE[s] < MIN[s]) MIN[s] = VALUE[s];
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("CO2:"));
@@ -347,7 +372,7 @@ void CHECK_SENSORS()
 
 void CHECK_DANGER()
 {
-  uint16_t VALUE = myMHZ19.getCO2();
+  uint16_t VALUE = myMHZ19.getCO2() + CALIBRATION[s] ;
   if (VALUE < 800)
   {
     digitalWrite(GREEN_PIN, HIGH);
