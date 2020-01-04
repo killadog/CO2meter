@@ -59,9 +59,9 @@
 ## Шрифты
 Шрифты созданы с помощью [Fony 1.4.7-WIP](http://hukka.ncn.fi/?fony) и конвертированы для вставки в скетч с помощью [bdfconv](https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv).
 
-<img src="img/lcdnums_10x16.png"> [fonts/lcdnums_10x16.fon](lcdnums_10x16.fon)
+<img src="img/lcdnums_10x16.png"> [lcdnums_10x16.fon](fonts/lcdnums_10x16.fon)
 
-<img src="img/lcdnums_12x32.png"> [fonts/lcdnums_12x32.fon](lcdnums_12x32.fon)
+<img src="img/lcdnums_12x32.png"> [lcdnums_12x32.fon](fonts/lcdnums_12x32.fon)
 
 <details> 
   <summary>Код шрифтов для вставки в свой скетч</summary>
