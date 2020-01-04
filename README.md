@@ -6,7 +6,7 @@
 <img src="co2_img_02.png">
 
 - [Возможности](https://github.com/killadog/CO2meter#%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8)
-- Режимы
+- [Режимы](https://github.com/killadog/CO2meter/blob/master/README.md#%D1%80%D0%B5%D0%B6%D0%B8%D0%BC%D1%8B-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0)
 - [Компоненты](https://github.com/killadog/CO2meter#%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B)
 - [Схемы](https://github.com/killadog/CO2meter#%D1%81%D1%85%D0%B5%D0%BC%D1%8B)
 - [Библиотеки](https://github.com/killadog/CO2meter#%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B8)
@@ -31,11 +31,11 @@
 
 |   |**Mode 0**  |**Mode 1**   |
 |---|:---:|:---:|
-|**Sensor 0**  | 'Current temperature'  |Min-Max temperature   |
+|**Sensor 0**  |Current temperature|Min-Max temperature   |
 |**Sensor 1**  |Current humidity   |Min-Max humidity  |
-|**Sensor 2**  | Current pressure  |Min-Max pressure  |
-|**Sensor 3**  | Current CO2  |Min-Max CO2   |
-|**Sensor 4**  | ALL sensors  |Ver. & Year  |
+|**Sensor 2**  |Current pressure  |Min-Max pressure  |
+|**Sensor 3**  |Current CO2  |Min-Max CO2   |
+|**Sensor 4**  |All sensors  |Ver. & Year  |
 
 ## Компоненты
 - Arduino Nano
