@@ -27,27 +27,27 @@
 #include <MHZ19.h>
 #include <SoftwareSerial.h>
 
-#define RX_PIN                        4               // RX pin
-#define TX_PIN                        5               // TX pin
-#define RED_PIN                       6               // RED pin
-#define YELLOW_PIN                    7               // YELLOW pin 
-#define GREEN_PIN                     8               // GREEN pin
-#define BUTTON_PIN                    9               // BUTTON pin
-#define SDA_PIN                       A4              // SDA pin
-#define SCL_PIN                       A5              // SCL pin
+#define RX_PIN                        4                  // RX pin
+#define TX_PIN                        5                  // TX pin
+#define RED_PIN                       6                  // RED pin
+#define YELLOW_PIN                    7                  // YELLOW pin 
+#define GREEN_PIN                     8                  // GREEN pin
+#define BUTTON_PIN                    9                  // BUTTON pin
+#define SDA_PIN                       A4                 // SDA pin
+#define SCL_PIN                       A5                 // SCL pin
 
-const uint8_t SENSORS               = 4;              //number of sensors
-float VALUE[SENSORS];                                 //current value of each sensor
-float CALIBRATION[SENSORS]          = { -1, 0, 0, 0}; //calibration of each sensor (t,%,T,ppm)
-uint16_t MIN[SENSORS];                                //Min value of each sensor
-uint16_t MAX[SENSORS];                                //Max value of each sensor
+const uint8_t SENSORS               = 4;                 // number of sensors
+float VALUE[SENSORS];                                    // current value of each sensor
+float CALIBRATION[SENSORS]          = { -0.3, 0, 0, 0};  // calibration of each sensor (t,%,T,ppm)
+uint16_t MIN[SENSORS];                                   // Min value of each sensor
+uint16_t MAX[SENSORS];                                   // Max value of each sensor
 
-boolean MODE                        = 0;              //start mode (0 - normal, 1 - min/max)
-uint8_t SENSOR_NUMBER               = 4;              //start sensor (screen) for show
+boolean MODE                        = 0;                 // start mode (0 - normal, 1 - min/max)
+uint8_t SENSOR_NUMBER               = 4;                 // start sensor (screen) for show
 uint32_t SENSORS_TIMESTAMP          = millis();
-#define CHECK_TIME                    20000           //sensors check time in millis
+#define CHECK_TIME                    20000              // sensors check time in millis
 
-boolean DISPLAY_MODE                = 0;              //normal (0) or rotate (1) screen
+boolean DISPLAY_MODE                = 0;                 // normal (0) or rotate (1) screen
 
 BME280 bme280;
 U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ SCL, /* data=*/ SDA);
@@ -128,7 +128,7 @@ void setup()
   START_SCREEN();
 }
 
-void START_SCREEN()
+void START_SCREEN()                                  //Countdown. Center text
 {
   u8g2.setFont(lcdnums_12x32);
   uint32_t START_TIME = millis();
@@ -136,9 +136,6 @@ void START_SCREEN()
   {
     u8g2.firstPage();
     do {
-      //      u8g2.setCursor(60, 12);
-      //      u8g2.print((CHECK_TIME + 1000 - millis()) / 1000);
-
       char charBuf[3];
       String COUNTDOWN = String((CHECK_TIME + 1000 - millis()) / 1000);
       COUNTDOWN.toCharArray(charBuf, 3);
@@ -372,7 +369,7 @@ void CHECK_SENSORS()
 
 void CHECK_DANGER()
 {
-  uint16_t VALUE = myMHZ19.getCO2() + CALIBRATION[s] ;
+  uint16_t VALUE = myMHZ19.getCO2() + CALIBRATION[3] ;
   if (VALUE < 800)
   {
     digitalWrite(GREEN_PIN, HIGH);
