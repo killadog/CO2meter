@@ -1,9 +1,9 @@
 <img src="https://img.shields.io/badge/version-1.01-green">
 
 # CO2meter
-<img src="co2_img_01.png">
+<img src="img/co2_img_01.png">
 
-<img src="co2_img_02.png">
+<img src="img/co2_img_02.png">
 
 - [Возможности](https://github.com/killadog/CO2meter#%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8)
 - [Режимы](https://github.com/killadog/CO2meter/blob/master/README.md#%D1%80%D0%B5%D0%B6%D0%B8%D0%BC%D1%8B-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0)
@@ -43,12 +43,12 @@
 - BME280
 - OLED SSD1306 128x32
 ## Схемы
-<img src="CO2meter_01.png">
+<img src="img/CO2meter_01.png">
 Для изготовления платы в формате Sprint Layout
 
-[CO2.lay](CO2.lay)
+[CO2.lay](img/CO2.lay)
 
-<img src="CO2_02.png">
+<img src="img/CO2_02.png">
 
 ## Библиотеки
 
@@ -59,9 +59,9 @@
 ## Шрифты
 Шрифты созданы с помощью [Fony 1.4.7-WIP](http://hukka.ncn.fi/?fony) и конвертированы для вставки в скетч с помощью [bdfconv](https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv).
 
-<img src="lcdnums_10x16.png"> [lcdnums_10x16.fon](lcdnums_10x16.fon)
+<img src="img/lcdnums_10x16.png"> [lcdnums_10x16.fon](lcdnums_10x16.fon)
 
-<img src="lcdnums_12x32.png"> [lcdnums_12x32.fon](lcdnums_12x32.fon)
+<img src="img/lcdnums_12x32.png"> [lcdnums_12x32.fon](lcdnums_12x32.fon)
 
 <details> 
   <summary>Код шрифтов для вставки в свой скетч</summary>
