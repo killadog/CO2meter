@@ -151,8 +151,10 @@ void loop()
   do {
     draw();
   } while (u8g2.nextPage());
+
   CHECK_BUTTON();
-  if (millis() - SENSORS_TIMESTAMP > CHECK_TIME)
+
+  if (CHECK_TIME < millis() - SENSORS_TIMESTAMP)
   {
     CHECK_SENSORS();
   }
@@ -300,7 +302,7 @@ void SENSOR_4()
     case 1:
       u8g2.setFont(lcdnums_10x16);
       u8g2.setCursor(50, 10);
-      u8g2.print("1.0");                              //version
+      u8g2.print("1.01");                             //version
       u8g2.setCursor(40, 27);
       u8g2.print("2019");                             //year
       break;
