@@ -1,5 +1,5 @@
 /*
-  Version: 1.01
+  Version: 1.0.1
 
   Arduino Nano
   CO2 - MH-Z19B
@@ -302,9 +302,9 @@ void SENSOR_4()
     case 1:
       u8g2.setFont(lcdnums_10x16);
       u8g2.setCursor(50, 10);
-      u8g2.print("1.01");                             //version
-      u8g2.setCursor(40, 27);
-      u8g2.print("2019");                             //year
+      u8g2.print("1.0.1");                            //version
+      u8g2.setCursor(10, 27);
+      u8g2.print("2019 - 2020");                      //years
       break;
   }
 }
