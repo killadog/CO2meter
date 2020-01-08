@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/version-1.01-green">
+<img src="https://img.shields.io/badge/version-1.0.1-green">
 
 # CO2meter
 <img src="img/co2_img_01.png">
@@ -31,11 +31,11 @@
 
 |   |**Mode 0**  |**Mode 1**   |
 |---|:---:|:---:|
-|**Sensor 0**  |Current temperature|Min-Max temperature   |
-|**Sensor 1**  |Current humidity   |Min-Max humidity  |
-|**Sensor 2**  |Current pressure  |Min-Max pressure  |
-|**Sensor 3**  |Current CO2  |Min-Max CO2   |
-|**Sensor 4**  |All sensors  |Ver. & Year  |
+|**Sensor 0**  |Температура|Мин.-макс. температура|
+|**Sensor 1**  |Влажность|Мин.-макс. влажность|
+|**Sensor 2**  |Давление|Мин.-макс. давление|
+|**Sensor 3**  |CO2|Мин.-макс. CO2|
+|**Sensor 4**  |Все датчики|Версия. Год|
 
 ## Компоненты
 - Arduino Nano
