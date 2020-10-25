@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/version-1.0.1-green">
+<img src="https://img.shields.io/badge/version-1.0.3-green">
 
 # CO2meter
 <img src="img/co2_img_01.png">
