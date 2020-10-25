@@ -1,11 +1,12 @@
 /*
-  Version: 1.0.1
+  Version: 1.0.3
 
-  Arduino Nano
-  CO2 - MH-Z19B
-  Temperature, humidity, pressure - BME280
-  OLED - SSD1306 128x32
-  Code, fonts, layout etc - https://github.com/killadog/CO2meter
+  Components:
+  - Arduino Nano
+  - CO2 - MH-Z19B
+  - Temperature, humidity, pressure - BME280
+  - OLED - SSD1306 128x32
+  - Code, fonts, layout etc - https://github.com/killadog/CO2meter
 
                      Mode 0                   Mode 1
             ┌───────────────────────┬───────────────────────┐
@@ -21,10 +22,10 @@
             └───────────────────────┴───────────────────────┘
 */
 
-#include <SparkFunBME280.h>
-#include <U8g2lib.h>
-#include <GyverButton.h>
-#include <MHZ19.h>
+#include <SparkFunBME280.h>             // https://github.com/sparkfun/SparkFun_BME280_Arduino_Library
+#include <U8g2lib.h>                    // https://github.com/olikraus/u8g2
+#include <GyverButton.h>                // https://github.com/AlexGyver/GyverLibs/tree/master/GyverButton
+#include <MHZ19.h>                      // https://github.com/WifWaf/MH-Z19
 #include <SoftwareSerial.h>
 
 #define RX_PIN                        4                  // RX pin
@@ -43,9 +44,9 @@ uint16_t MIN[SENSORS];                                   // Min value of each se
 uint16_t MAX[SENSORS];                                   // Max value of each sensor
 
 boolean MODE                        = 0;                 // start mode (0 - normal, 1 - min/max)
-uint8_t SENSOR_NUMBER               = 4;                 // start sensor (screen) for show
+uint8_t SENSOR_NUMBER               = 4;                 // start sensor (screen)
 uint32_t SENSORS_TIMESTAMP          = millis();
-#define CHECK_TIME                    20000              // sensors check time in millis
+#define CHECK_TIME                    10000              // sensors check time in millis
 
 boolean DISPLAY_MODE                = 0;                 // normal (0) or rotate (1) screen
 
@@ -53,7 +54,7 @@ BME280 bme280;
 U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ SCL, /* data=*/ SDA);
 MHZ19 myMHZ19;
 
-GButton button_select(BUTTON_PIN);
+GButton button_select(BUTTON_PIN, LOW_PULL, NORM_OPEN);
 
 SoftwareSerial co2(RX_PIN, TX_PIN);
 
@@ -95,10 +96,9 @@ void setup()
   pinMode(YELLOW_PIN, OUTPUT);
   pinMode(RED_PIN, OUTPUT);
 
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  button_select.setDebounce(50);         // настройка антидребезга (по умолчанию 80 мс)
-  button_select.setTimeout(1500);        // настройка таймаута на удержание (по умолчанию 500 мс)
-  button_select.setClickTimeout(300);    // настройка таймаута между кликами (по умолчанию 300 мс)
+  button_select.setDebounce(50);         // настройка антидребезга (default 80 ms)
+  button_select.setTimeout(1500);        // настройка таймаута на удержание (default 500 ms)
+  button_select.setClickTimeout(200);    // настройка таймаута между кликами (default 300 ms)
 
   digitalWrite(GREEN_PIN, LOW);
   digitalWrite(YELLOW_PIN, LOW);
@@ -118,6 +118,7 @@ void setup()
 
   co2.begin(9600);                                   // Begin Stream with MHZ19 baudrate
   myMHZ19.begin(co2);                                // *Important, Pass your Stream reference
+  myMHZ19.setRange(2000);                            // 2000ppm is the most accurate and advised
   myMHZ19.autoCalibration(0);                        // Turn auto calibration OFF (disable with autoCalibration(false))
 
   for (uint8_t s = 0; s < SENSORS; s++)
@@ -126,23 +127,6 @@ void setup()
   }
 
   START_SCREEN();
-}
-
-void START_SCREEN()                                  //Countdown. Center text
-{
-  u8g2.setFont(lcdnums_12x32);
-  uint32_t START_TIME = millis();
-  while (millis() < START_TIME + CHECK_TIME)
-  {
-    u8g2.firstPage();
-    do {
-      char charBuf[3];
-      String COUNTDOWN = String((CHECK_TIME + 1000 - millis()) / 1000);
-      COUNTDOWN.toCharArray(charBuf, 3);
-      u8g2_uint_t TEXT_WIDTH = u8g2.getStrWidth(charBuf);
-      u8g2.drawStr((128 - TEXT_WIDTH) / 2, 12, charBuf);
-    } while (u8g2.nextPage());
-  }
 }
 
 void loop()
@@ -157,35 +141,6 @@ void loop()
   if (CHECK_TIME < millis() - SENSORS_TIMESTAMP)
   {
     CHECK_SENSORS();
-  }
-}
-
-void CHECK_BUTTON()
-{
-  button_select.tick();
-  if (button_select.isSingle())
-  {
-    SENSOR_NUMBER++;
-    if (SENSOR_NUMBER > SENSORS) SENSOR_NUMBER = 0;
-    Serial.print(F("Single click. Sensor "));
-    Serial.print(SENSOR_NUMBER);
-    Serial.print(F(" Mode "));
-    Serial.println(MODE);
-  }
-  if (button_select.isDouble())
-  {
-    MODE = !MODE;
-    Serial.print(F("Double click. Sensor "));
-    Serial.print(SENSOR_NUMBER);
-    Serial.print(F(" Mode "));
-    Serial.println(MODE);
-  }
-  if (button_select.isHolded())
-  {
-    DISPLAY_MODE = !DISPLAY_MODE;
-    if (DISPLAY_MODE) u8g2.setDisplayRotation(U8G2_R0);
-    else u8g2.setDisplayRotation(U8G2_R2);
-    Serial.println(F("Holded. Rotate display."));
   }
 }
 
@@ -302,10 +257,39 @@ void SENSOR_4()
     case 1:
       u8g2.setFont(lcdnums_10x16);
       u8g2.setCursor(50, 10);
-      u8g2.print("1.0.1");                            //version
+      u8g2.print(" 1.0.3");                           //version
       u8g2.setCursor(10, 27);
-      u8g2.print("2019 - 2020");                      //years
+      u8g2.print("2019---2020");                      //years
       break;
+  }
+}
+
+void CHECK_BUTTON()
+{
+  button_select.tick();
+  if (button_select.isSingle())
+  {
+    SENSOR_NUMBER++;
+    if (SENSOR_NUMBER > SENSORS) SENSOR_NUMBER = 0;
+    Serial.print(F("Single click. Sensor "));
+    Serial.print(SENSOR_NUMBER);
+    Serial.print(F(" Mode "));
+    Serial.println(MODE);
+  }
+  if (button_select.isDouble())
+  {
+    MODE = !MODE;
+    Serial.print(F("Double click. Sensor "));
+    Serial.print(SENSOR_NUMBER);
+    Serial.print(F(" Mode "));
+    Serial.println(MODE);
+  }
+  if (button_select.isHolded())
+  {
+    DISPLAY_MODE = !DISPLAY_MODE;
+    if (DISPLAY_MODE) u8g2.setDisplayRotation(U8G2_R0);
+    else u8g2.setDisplayRotation(U8G2_R2);
+    Serial.println(F("Holded. Rotate display."));
   }
 }
 
@@ -333,7 +317,8 @@ void CHECK_SENSORS()
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("H: "));
         Serial.print(VALUE[s], 1);
-        Serial.print (F("% ("));
+        //        Serial.print (F("% ("));    //it breaks chrome extension
+        Serial.print (F(" ("));       //that's why
         Serial.print(MIN[s], 1);
         Serial.print(F("/"));
         Serial.print(MAX[s], 1);
@@ -353,6 +338,7 @@ void CHECK_SENSORS()
         break;
       case 3:
         VALUE[s] = myMHZ19.getCO2() + CALIBRATION[s];
+        if (VALUE[s] == 0) RESTART();                   //Error in MHZ19. Restart if ppm is 0
         if  (VALUE[s] < MIN[s]) MIN[s] = VALUE[s];
         if  (VALUE[s] > MAX[s]) MAX[s] = VALUE[s];
         Serial.print (F("CO2:"));
@@ -390,4 +376,27 @@ void CHECK_DANGER()
     digitalWrite(YELLOW_PIN, LOW);
     digitalWrite(RED_PIN, HIGH);
   }
+}
+
+void START_SCREEN()                                  //Countdown. Center text
+{
+  u8g2.setFont(lcdnums_12x32);
+  uint32_t START_TIME = millis();
+  while (millis() < START_TIME + CHECK_TIME)
+  {
+    u8g2.firstPage();
+    do {
+      char charBuf[3];
+      String COUNTDOWN = String((CHECK_TIME + 1000 - millis()) / 1000);
+      COUNTDOWN.toCharArray(charBuf, 3);
+      u8g2_uint_t TEXT_WIDTH = u8g2.getStrWidth(charBuf);
+      u8g2.drawStr((128 - TEXT_WIDTH) / 2, 12, charBuf);
+    } while (u8g2.nextPage());
+  }
+}
+
+void RESTART()                                      //FULL RESTART 
+{
+  Serial.println(F("RESTART"));
+  asm("JMP 0");
 }
